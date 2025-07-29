@@ -120,11 +120,6 @@ def process_detected_classes(model, results):
             print(f"Detected class: {class_name}")
             print(f"Width: {width_mm:.1f} mm, Height: {height_mm:.1f} mm")
 
-            # If "person" is detected, print a message
-            if class_name == "person":
-                print("Detected a person!")
-                detected = True
-                break
         if detected:
             break
 
