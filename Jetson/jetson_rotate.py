@@ -6,30 +6,30 @@ from imutils import contours
 import numpy as np
 import imutils
 
-# def undistort_image(image_path, camera_matrix_file="cameraMatrix.pkl", dist_coeffs_file="dist.pkl"):
-#    with open(camera_matrix_file, "rb") as f:
-#        camera_matrix = pickle.load(f)
-#    with open(dist_coeffs_file, "rb") as f:
-#        dist_coeffs = pickle.load(f)
+def undistort_image(image_path, camera_matrix_file="cameraMatrix.pkl", dist_coeffs_file="dist.pkl"):
+    with open(camera_matrix_file, "rb") as f:
+        camera_matrix = pickle.load(f)
+    with open(dist_coeffs_file, "rb") as f:
+        dist_coeffs = pickle.load(f)
 
-#    image = cv2.imread(image_path)
-#    if image is None:
-#        print(f"Failed to load image: {image_path}")
-#        return None
+    image = cv2.imread(image_path)
+    if image is None:
+        print(f"Failed to load image: {image_path}")
+        return None
 
-#    undistorted_image = cv2.undistort(image, camera_matrix, dist_coeffs)
-#    return undistorted_image
+    undistorted_image = cv2.undistort(image, camera_matrix, dist_coeffs)
+    return undistorted_image
 
 def run_yolo_on_image(image_path, model_path="best.pt", camera_matrix_file="cameraMatrix.pkl", dist_coeffs_file="dist.pkl"):
-#    undistorted_image = undistort_image(image_path, camera_matrix_file, dist_coeffs_file)
-#    if undistorted_image is None:
-#        return
+    undistorted_image = undistort_image(image_path, camera_matrix_file, dist_coeffs_file)
+    if undistorted_image is None:
+        return
 
-#    temp_image_path = "undistorted_image.jpg"
-#    cv2.imwrite(temp_image_path, undistorted_image)
+    temp_image_path = "undistorted_image.jpg"
+    cv2.imwrite(temp_image_path, undistorted_image)
 
     model = YOLO(model_path).to('cuda')
-    results = model(image_path)
+    results = model(temp_image_path)
     if results is None or len(results) == 0:
         print("No results returned by YOLO.")
         return
